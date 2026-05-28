@@ -34,7 +34,7 @@ function injectStyles() {
   background: #fff;
   padding: 4px;
   box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
-  max-width: 200px;
+  min-width: 140px;
   max-height: calc(100vh - 10px);
   animation: rcm-fade-in 0.12s ease-out forwards;
 }
@@ -46,7 +46,7 @@ function injectStyles() {
   all: unset;
   display: flex;
   height: 36px;
-  width: 160px;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
@@ -261,10 +261,11 @@ interface ContextMenuState {
   x: number;
   y: number;
   menus: MenuItem[];
+  width?: number;
 }
 
 interface ContextMenuCtx {
-  openContextMenu: (x: number, y: number, menus: MenuItem[]) => void;
+  openContextMenu: (x: number, y: number, menus: MenuItem[], width?: number) => void;
   closeContextMenu: () => void;
 }
 
@@ -281,8 +282,8 @@ export function ContextMenuProvider({ children }: { children: ReactNode }) {
 
   const menuRef = useRef<HTMLDivElement>(null);
 
-  const openContextMenu = (x: number, y: number, menus: MenuItem[]) => {
-    setState({ visible: true, x, y, menus });
+  const openContextMenu = (x: number, y: number, menus: MenuItem[], width?: number) => {
+    setState({ visible: true, x, y, menus, width });
   };
 
   const closeContextMenu = () => {
@@ -367,7 +368,7 @@ export function ContextMenuProvider({ children }: { children: ReactNode }) {
             ref={menuRef}
             className="rcm-menu"
             onClick={(e) => e.stopPropagation()}
-            style={{ top: state.y, left: state.x }}
+            style={{ top: state.y, left: state.x, width: state.width }}
           >
             <MenuList items={state.menus} onClose={closeContextMenu} />
           </div>

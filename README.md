@@ -1,5 +1,7 @@
 # @newnpmjs/react-context-menu
 
+![demo](https://raw.githubusercontent.com/awyb/react-context-menu/main/demo/screenshot.png)
+
 A lightweight, zero-dependency React context menu (right-click menu) component. Comes with a global provider pattern so you can open menus from anywhere in your app.
 
 ## Installation
