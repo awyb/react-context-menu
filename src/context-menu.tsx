@@ -239,7 +239,7 @@ function MenuList({ items, onClose }: { items: MenuItem[]; onClose: () => void }
               if (hasSubmenu) closeSubmenu();
             }}
           >
-            {item.icon && <MenuItemIcon icon={item.icon} />}
+            <MenuItemIcon icon={item.icon} />
             <span className="rcm-item-name">{item.name ?? ""}</span>
             {item.keyboard && <span className="rcm-item-keyboard">{item.keyboard}</span>}
             {hasSubmenu && <span className="rcm-item-arrow">▶</span>}
@@ -341,9 +341,17 @@ export function ContextMenuProvider({ children }: { children: ReactNode }) {
             onClick={closeContextMenu}
             onContextMenu={(e) => {
               e.preventDefault();
+              // Hide overlay temporarily so elementFromPoint sees through it
+              const overlay = e.currentTarget as HTMLElement;
+              overlay.style.pointerEvents = "none";
+
+              const target = document.elementFromPoint(
+                e.clientX,
+                e.clientY,
+              );
+
               closeContextMenu();
-              // Re-dispatch the right-click event to the element underneath
-              const target = document.elementFromPoint(e.clientX, e.clientY);
+
               if (target) {
                 const ev = new MouseEvent("contextmenu", {
                   bubbles: true,
