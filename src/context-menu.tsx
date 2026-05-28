@@ -336,7 +336,25 @@ export function ContextMenuProvider({ children }: { children: ReactNode }) {
       {children}
       {state.visible && (
         <>
-          <div className="rcm-overlay" onClick={closeContextMenu} />
+          <div
+            className="rcm-overlay"
+            onClick={closeContextMenu}
+            onContextMenu={(e) => {
+              e.preventDefault();
+              closeContextMenu();
+              // Re-dispatch the right-click event to the element underneath
+              const target = document.elementFromPoint(e.clientX, e.clientY);
+              if (target) {
+                const ev = new MouseEvent("contextmenu", {
+                  bubbles: true,
+                  cancelable: true,
+                  clientX: e.clientX,
+                  clientY: e.clientY,
+                });
+                target.dispatchEvent(ev);
+              }
+            }}
+          />
           <div
             ref={menuRef}
             className="rcm-menu"

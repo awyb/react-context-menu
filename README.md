@@ -1,11 +1,11 @@
-# react-context-menu-popup
+# @newnpmjs/react-context-menu
 
 A lightweight, zero-dependency React context menu (right-click menu) component. Comes with a global provider pattern so you can open menus from anywhere in your app.
 
 ## Installation
 
 ```bash
-npm install react-context-menu-popup
+npm install @newnpmjs/react-context-menu
 ```
 
 ## Peer Dependencies
@@ -19,7 +19,7 @@ No other runtime dependencies.
 Wrap your app with `ContextMenuProvider`, then use `useContextMenu` anywhere to open a right‑click menu.
 
 ```tsx
-import { ContextMenuProvider, useContextMenu } from 'react-context-menu-popup'
+import { ContextMenuProvider, useContextMenu } from '@newnpmjs/react-context-menu'
 
 function App() {
   return (

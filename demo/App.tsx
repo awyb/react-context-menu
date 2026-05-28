@@ -333,7 +333,7 @@ function AppContent() {
 
   return (
     <div style={styles.page}>
-      <h1 style={styles.header}>react-context-menu-popup</h1>
+      <h1 style={styles.header}>@newnpmjs/react-context-menu</h1>
       <p style={styles.sub}>
         A lightweight, zero-dependency React context menu.{" "}
         <strong>Right-click</strong> anywhere to open a menu.
@@ -442,7 +442,7 @@ function AppContent() {
           marginTop: 40,
         }}
       >
-        react-context-menu-popup v0.1.0 &mdash; Right-click anywhere above
+        @newnpmjs/react-context-menu v0.1.0 &mdash; Right-click anywhere above
       </p>
     </div>
   );
