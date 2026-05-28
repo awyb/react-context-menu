@@ -1,6 +1,6 @@
 {
   "name": "@newnpmjs/react-context-menu",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A lightweight, dependency-free React context menu component with global provider pattern",
   "type": "module",
   "main": "./dist/index.js",
