@@ -128,7 +128,14 @@ function injectStyles() {
 
 /* ---------- Components ---------- */
 
-function MenuItemIcon({ icon }: { icon: string | ReactNode }) {
+function MenuItemIcon({
+  icon,
+  showIcon,
+}: {
+  icon: string | ReactNode;
+  showIcon: boolean;
+}) {
+  if (!showIcon) return null;
   if (typeof icon === "string") {
     const isImage =
       icon.startsWith("http://") ||
@@ -146,7 +153,11 @@ function MenuItemIcon({ icon }: { icon: string | ReactNode }) {
   return <span className="rcm-item-icon">{icon}</span>;
 }
 
-function SubmenuPositioner({ children, onEnter, onLeave }: {
+function SubmenuPositioner({
+  children,
+  onEnter,
+  onLeave,
+}: {
   children: ReactNode;
   onEnter?: () => void;
   onLeave?: () => void;
@@ -181,7 +192,18 @@ function SubmenuPositioner({ children, onEnter, onLeave }: {
   );
 }
 
-function MenuList({ items, onClose }: { items: MenuItem[]; onClose: () => void }) {
+function hasIconInItems(items: MenuItem[]): boolean {
+  return items.some((item) => item.type !== "divider" && !!item.icon);
+}
+
+function MenuList({
+  items,
+  onClose,
+}: {
+  items: MenuItem[];
+  onClose: () => void;
+}) {
+  const hasIcon = hasIconInItems(items);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -210,10 +232,14 @@ function MenuList({ items, onClose }: { items: MenuItem[]; onClose: () => void }
   return (
     <>
       {items.map((item) => {
-        if (item.type === "divider") return <div key={item.key} className="rcm-separator" />;
+        if (item.type === "divider")
+          return <div key={item.key} className="rcm-separator" />;
         if (!item.show) return null;
 
-        const hasSubmenu = !item.disabled && Array.isArray(item.children) && item.children.length > 0;
+        const hasSubmenu =
+          !item.disabled &&
+          Array.isArray(item.children) &&
+          item.children.length > 0;
 
         return (
           <div
@@ -221,7 +247,7 @@ function MenuList({ items, onClose }: { items: MenuItem[]; onClose: () => void }
             className={`rcm-item${item.disabled ? " rcm-disabled" : ""}${activeSubmenu === item.key ? " rcm-item-active" : ""}`}
             style={{
               display: "flex",
-              position: hasSubmenu ? "relative" as const : undefined,
+              position: hasSubmenu ? ("relative" as const) : undefined,
             }}
             onClick={() => {
               if (!item.disabled) {
@@ -239,9 +265,11 @@ function MenuList({ items, onClose }: { items: MenuItem[]; onClose: () => void }
               if (hasSubmenu) closeSubmenu();
             }}
           >
-            <MenuItemIcon icon={item.icon} />
+            <MenuItemIcon icon={item.icon} showIcon={hasIcon} />
             <span className="rcm-item-name">{item.name ?? ""}</span>
-            {item.keyboard && <span className="rcm-item-keyboard">{item.keyboard}</span>}
+            {item.keyboard && (
+              <span className="rcm-item-keyboard">{item.keyboard}</span>
+            )}
             {hasSubmenu && <span className="rcm-item-arrow">▶</span>}
             {hasSubmenu && activeSubmenu === item.key && (
               <SubmenuPositioner onEnter={cancelClose} onLeave={closeSubmenu}>
@@ -265,7 +293,12 @@ interface ContextMenuState {
 }
 
 interface ContextMenuCtx {
-  openContextMenu: (x: number, y: number, menus: MenuItem[], width?: number) => void;
+  openContextMenu: (
+    x: number,
+    y: number,
+    menus: MenuItem[],
+    width?: number,
+  ) => void;
   closeContextMenu: () => void;
 }
 
@@ -282,7 +315,12 @@ export function ContextMenuProvider({ children }: { children: ReactNode }) {
 
   const menuRef = useRef<HTMLDivElement>(null);
 
-  const openContextMenu = (x: number, y: number, menus: MenuItem[], width?: number) => {
+  const openContextMenu = (
+    x: number,
+    y: number,
+    menus: MenuItem[],
+    width?: number,
+  ) => {
     setState({ visible: true, x, y, menus, width });
   };
 
@@ -346,10 +384,7 @@ export function ContextMenuProvider({ children }: { children: ReactNode }) {
               const overlay = e.currentTarget as HTMLElement;
               overlay.style.pointerEvents = "none";
 
-              const target = document.elementFromPoint(
-                e.clientX,
-                e.clientY,
-              );
+              const target = document.elementFromPoint(e.clientX, e.clientY);
 
               closeContextMenu();
 

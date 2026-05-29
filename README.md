@@ -176,6 +176,7 @@ openContextMenu(e.clientX, e.clientY, [
 - **Keyboard shortcut hints** — display shortcut text per item
 - **Dividers** — separate item groups with `type: 'divider'`
 - **Disabled state** — dimmed items with `disabled: true`
+- **Smart icon alignment** — when no item in a menu level has an icon, the icon placeholder is hidden automatically, keeping the menu compact and avoiding unnecessary left padding
 - **Self-contained styles** — CSS injected once via `useEffect`, no external stylesheet needed
 
 ## License

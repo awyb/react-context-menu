@@ -197,7 +197,7 @@ function ListItem({ label, index: idx }: { label: string; index: number }) {
       {
         key: "open",
         name: "Open",
-        icon: "📂",
+        icon: "",
         show: true,
         onClick: () => alert(`Open ${label}`),
       },
@@ -205,13 +205,13 @@ function ListItem({ label, index: idx }: { label: string; index: number }) {
       {
         key: "organize",
         name: "Organize",
-        icon: "📦",
+        icon: "",
         show: true,
         children: [
           {
             key: "sort",
             name: "Sort by",
-            icon: "🔤",
+            icon: "",
             show: true,
             children: [
               {
@@ -246,7 +246,7 @@ function ListItem({ label, index: idx }: { label: string; index: number }) {
       {
         key: "delete",
         name: "Delete",
-        icon: "🗑️",
+        icon: "",
         show: true,
         disabled: idx === 0,
         onClick: () => alert(`Delete ${label}`),
