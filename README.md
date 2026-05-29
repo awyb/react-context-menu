@@ -1,6 +1,6 @@
 # @newnpmjs/react-context-menu
 
-![demo](https://raw.githubusercontent.com/awyb/react-context-menu/v0.1.3/demo/screenshot.png)
+![demo](https://unpkg.com/@newnpmjs/react-context-menu/demo/screenshot.png)
 
 A lightweight, zero-dependency React context menu (right-click menu) component. Comes with a global provider pattern so you can open menus from anywhere in your app.
 
@@ -21,35 +21,38 @@ No other runtime dependencies.
 Wrap your app with `ContextMenuProvider`, then use `useContextMenu` anywhere to open a right‑click menu.
 
 ```tsx
-import { ContextMenuProvider, useContextMenu } from '@newnpmjs/react-context-menu'
+import {
+  ContextMenuProvider,
+  useContextMenu,
+} from "@newnpmjs/react-context-menu";
 
 function App() {
   return (
     <ContextMenuProvider>
       <MyComponent />
     </ContextMenuProvider>
-  )
+  );
 }
 
 function MyComponent() {
-  const { openContextMenu } = useContextMenu()
+  const { openContextMenu } = useContextMenu();
 
   const handleContextMenu = (e: React.MouseEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     openContextMenu(e.clientX, e.clientY, [
-      { key: 'edit', name: 'Edit', show: true, onClick: () => alert('Edit') },
-      { key: 'sep1', type: 'divider' },
+      { key: "edit", name: "Edit", show: true, onClick: () => alert("Edit") },
+      { key: "sep1", type: "divider" },
       {
-        key: 'delete',
-        name: 'Delete',
+        key: "delete",
+        name: "Delete",
         show: true,
         disabled: true,
-        onClick: () => alert('Delete'),
+        onClick: () => alert("Delete"),
       },
-    ])
-  }
+    ]);
+  };
 
-  return <div onContextMenu={handleContextMenu}>Right-click me</div>
+  return <div onContextMenu={handleContextMenu}>Right-click me</div>;
 }
 ```
 
@@ -69,10 +72,10 @@ Wrap your component tree with this provider. It manages the menu state and rende
 
 Returns an object with two methods:
 
-| Method | Signature | Description |
-|--------|-----------|-------------|
-| `openContextMenu` | `(x: number, y: number, menus: MenuItem[]) => void` | Opens the context menu at the given coordinates |
-| `closeContextMenu` | `() => void` | Closes the menu programmatically |
+| Method             | Signature                                           | Description                                     |
+| ------------------ | --------------------------------------------------- | ----------------------------------------------- |
+| `openContextMenu`  | `(x: number, y: number, menus: MenuItem[]) => void` | Opens the context menu at the given coordinates |
+| `closeContextMenu` | `() => void`                                        | Closes the menu programmatically                |
 
 ## Menu Items
 
@@ -80,41 +83,43 @@ Returns an object with two methods:
 
 ```ts
 interface BaseMenuItem {
-  key: string
-  name?: string
-  onClick?: () => void
-  disabled?: boolean
-  icon?: string | ReactNode
-  keyboard?: string
-  children?: MenuItem[]
+  key: string;
+  name?: string;
+  onClick?: () => void;
+  disabled?: boolean;
+  icon?: string | ReactNode;
+  keyboard?: string;
+  children?: MenuItem[];
 }
 
 interface MenuItemMenu extends BaseMenuItem {
-  type?: 'menu'   // default
-  show: boolean
+  type?: "menu"; // default
+  show: boolean;
 }
 
-interface MenuItemDivider
-  extends Omit<BaseMenuItem, 'name' | 'onClick' | 'icon' | 'keyboard' | 'disabled'> {
-  type: 'divider'
+interface MenuItemDivider extends Omit<
+  BaseMenuItem,
+  "name" | "onClick" | "icon" | "keyboard" | "disabled"
+> {
+  type: "divider";
 }
 
-type MenuItem = MenuItemMenu | MenuItemDivider
+type MenuItem = MenuItemMenu | MenuItemDivider;
 ```
 
 ### Fields
 
-| Field | Type | Applies to | Description |
-|-------|------|------------|-------------|
-| `key` | `string` | all | Unique identifier for the menu item |
-| `name` | `string` | menu | Display text |
-| `show` | `boolean` | menu | Whether the item is visible. `false` hides the item entirely |
-| `disabled` | `boolean` | menu | When `true`, dims the item and prevents click/submenu |
-| `icon` | `string \| ReactNode` | menu | Emoji string, image URL (auto-detected), or any React element |
-| `keyboard` | `string` | menu | Keyboard shortcut hint (e.g. `⌘Z`), rendered as italic text |
-| `onClick` | `() => void` | menu | Callback when the item is clicked |
-| `children` | `MenuItem[]` | menu | Submenu items — hover to reveal a nested menu |
-| `type` | `'menu' \| 'divider'` | all | `'menu'` (default) or `'divider'` for a separator line |
+| Field      | Type                  | Applies to | Description                                                   |
+| ---------- | --------------------- | ---------- | ------------------------------------------------------------- |
+| `key`      | `string`              | all        | Unique identifier for the menu item                           |
+| `name`     | `string`              | menu       | Display text                                                  |
+| `show`     | `boolean`             | menu       | Whether the item is visible. `false` hides the item entirely  |
+| `disabled` | `boolean`             | menu       | When `true`, dims the item and prevents click/submenu         |
+| `icon`     | `string \| ReactNode` | menu       | Emoji string, image URL (auto-detected), or any React element |
+| `keyboard` | `string`              | menu       | Keyboard shortcut hint (e.g. `⌘Z`), rendered as italic text   |
+| `onClick`  | `() => void`          | menu       | Callback when the item is clicked                             |
+| `children` | `MenuItem[]`          | menu       | Submenu items — hover to reveal a nested menu                 |
+| `type`     | `'menu' \| 'divider'` | all        | `'menu'` (default) or `'divider'` for a separator line        |
 
 ### Icon usage
 
@@ -138,18 +143,28 @@ Nest menu items via `children` to create submenus:
 ```tsx
 openContextMenu(e.clientX, e.clientY, [
   {
-    key: 'text',
-    name: 'Text',
+    key: "text",
+    name: "Text",
     show: true,
     children: [
-      { key: 'bold', name: 'Bold', show: true, onClick: () => exec('bold') },
-      { key: 'italic', name: 'Italic', show: true, onClick: () => exec('italic') },
-      { key: 'sep', type: 'divider' },
-      { key: 'clear', name: 'Clear formatting', show: true, onClick: () => exec('clear') },
+      { key: "bold", name: "Bold", show: true, onClick: () => exec("bold") },
+      {
+        key: "italic",
+        name: "Italic",
+        show: true,
+        onClick: () => exec("italic"),
+      },
+      { key: "sep", type: "divider" },
+      {
+        key: "clear",
+        name: "Clear formatting",
+        show: true,
+        onClick: () => exec("clear"),
+      },
     ],
   },
-  { key: 'insert', name: 'Insert image', show: true, onClick: () => insert() },
-])
+  { key: "insert", name: "Insert image", show: true, onClick: () => insert() },
+]);
 ```
 
 ## Features
